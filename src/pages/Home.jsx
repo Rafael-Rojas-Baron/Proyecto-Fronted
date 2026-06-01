@@ -22,7 +22,7 @@ export default function Home() {
         </p>
       </section>
 
-      <div className="grid md:grid-cols-3 gap-4 mt-8">
+      <div className="grid sm:grid-cols-2 gap-4 mt-8 max-w-3xl mx-auto">
         <div className="bg-white rounded-2xl p-6 shadow border border-frost-100">
           <h2 className="font-bold text-frost-800 mb-2">Productos</h2>
           <p className="text-sm text-slate-600 mb-4">
@@ -47,7 +47,7 @@ export default function Home() {
         )}
 
         {!isAuthenticated && (
-          <div className="bg-white rounded-2xl p-6 shadow border border-frost-100 md:col-span-2">
+          <div className="bg-white rounded-2xl p-6 shadow border border-frost-100">
             <h2 className="font-bold text-frost-800 mb-2">Cuentas de prueba</h2>
             <ul className="text-sm text-slate-600 space-y-1">
               <li>

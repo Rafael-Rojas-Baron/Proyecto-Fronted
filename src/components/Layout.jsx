@@ -87,8 +87,15 @@ export default function Layout({ children }) {
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-8">{children}</main>
 
-      <footer className="bg-frost-900 text-frost-100 text-center py-4 text-sm">
-        <p>© 2025 Heladería FrostBite — Proyecto Final React + Supabase + Vercel</p>
+      <footer className="bg-frost-900 text-frost-100 py-4 text-sm">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-center sm:text-left">
+            © 2025 Heladería FrostBite — Proyecto Final React + Supabase + Vercel
+          </p>
+          <p className="text-frost-200 text-center sm:text-right shrink-0">
+            Realizado por: <span className="font-medium text-white">Rafael Antonio Rojas Baron</span>
+          </p>
+        </div>
       </footer>
     </div>
   );

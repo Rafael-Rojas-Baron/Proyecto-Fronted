@@ -1,2 +1,2 @@
 # Proyecto-Fronted
-Proyecto para curso en JS, supabase y vercel
+Proyecto Heladeria en JS, supabase y vercel

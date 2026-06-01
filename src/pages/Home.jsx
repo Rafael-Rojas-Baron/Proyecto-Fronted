@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from '../components/Logo';
 import SetupBanner from '../components/SetupBanner';
 
 export default function Home() {
@@ -9,9 +10,9 @@ export default function Home() {
     <div>
       <SetupBanner />
       <section className="text-center py-8">
-        <span className="text-7xl block mb-4" aria-hidden="true">
-          🍦
-        </span>
+        <div className="inline-block rounded-full bg-slate-900 p-3 shadow-lg mb-4 ring-2 ring-frost-200">
+          <Logo size="lg" />
+        </div>
         <h1 className="font-display text-4xl md:text-5xl font-bold text-frost-900 mb-3">
           Bienvenido a FrostBite
         </h1>

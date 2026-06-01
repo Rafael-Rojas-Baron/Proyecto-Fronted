@@ -1,4 +1,5 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import Logo from './Logo';
 import { useAuth } from '../context/AuthContext';
 import {
   canManageIngredientes,
@@ -26,9 +27,9 @@ export default function Layout({ children }) {
       <header className="bg-white/90 backdrop-blur border-b border-frost-200 shadow-sm sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-3 group">
-            <span className="text-4xl" aria-hidden="true">
-              🍦
-            </span>
+            <div className="rounded-full bg-slate-900 p-1 shadow-sm ring-1 ring-frost-200">
+              <Logo size="md" />
+            </div>
             <div>
               <p className="font-display text-xl font-bold text-frost-900 group-hover:text-frost-600">
                 Heladería FrostBite

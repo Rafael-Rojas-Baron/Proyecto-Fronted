@@ -3,3 +3,6 @@ dist
 .env
 .env.local
 .DS_Store
+
+# Skills de Cursor (solo local, no subir al repo)
+.cursor/

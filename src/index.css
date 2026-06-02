@@ -2,6 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply antialiased;
+@layer base {
+  body {
+    @apply antialiased text-slate-800 font-sans;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/85 backdrop-blur-md rounded-2xl border border-frost-100/80 shadow-soft;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:shadow-card hover:-translate-y-0.5;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center bg-frost-600 hover:bg-frost-700 text-white font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 shadow-soft hover:shadow-glow disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center bg-frost-50 hover:bg-frost-100 text-frost-800 font-semibold py-2.5 px-5 rounded-xl border border-frost-200 transition-colors;
+  }
+
+  .btn-ghost-danger {
+    @apply px-3 py-2 rounded-xl text-sm font-medium text-red-700 hover:bg-red-50 transition-colors;
+  }
+
+  .input-field {
+    @apply w-full border border-slate-200 bg-white/90 rounded-xl px-4 py-2.5 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-frost-500/40 focus:border-frost-500 transition;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wide;
+  }
+
+  .badge-copa {
+    @apply badge bg-frost-100 text-frost-800;
+  }
+
+  .badge-malteada {
+    @apply badge bg-cream-200 text-frost-900;
+  }
+
+  .table-frost thead {
+    @apply bg-frost-800 text-white text-left text-sm;
+  }
+
+  .table-frost th {
+    @apply p-3 font-semibold;
+  }
+
+  .table-frost td {
+    @apply p-3 border-t border-frost-100;
+  }
+
+  .table-frost tbody tr:hover {
+    @apply bg-frost-50/50;
+  }
 }

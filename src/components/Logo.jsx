@@ -10,7 +10,7 @@ export default function Logo({ size = 'md', className = '' }) {
   return (
     <img
       src={LOGO_SRC}
-      alt="Logo CAPY WORKS — Heladería FrostBite"
+      alt="Logo Capy Frost"
       className={`object-contain shrink-0 ${sizes[size] ?? sizes.md} ${className}`}
     />
   );

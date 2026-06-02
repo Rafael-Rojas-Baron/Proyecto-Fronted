@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
 import SetupBanner from '../components/SetupBanner';
+import PageHeader from '../components/ui/PageHeader';
+import Alert from '../components/ui/Alert';
+import Loading from '../components/ui/Loading';
 import { getProductosConIngredientes, venderProducto } from '../services/productosService';
 import {
   canSeeCalorias,
@@ -26,8 +29,7 @@ export default function Productos() {
     setLoading(true);
     setError('');
     try {
-      const data = await getProductosConIngredientes();
-      setProductos(data);
+      setProductos(await getProductosConIngredientes());
     } catch (err) {
       setError(err.message);
     } finally {
@@ -57,36 +59,44 @@ export default function Productos() {
   return (
     <div>
       <SetupBanner />
-      <div className="flex flex-wrap justify-between items-end gap-4 mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-frost-900">Menú de productos</h1>
-          <p className="text-slate-600">Copas y malteadas con sus ingredientes</p>
-        </div>
+      <PageHeader
+        title="Menú de productos"
+        subtitle="Copas y malteadas con ingredientes e información según tu rol"
+      >
         <input
           type="search"
           placeholder="Buscar por nombre…"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          className="border border-slate-300 rounded-lg px-4 py-2 min-w-[200px]"
+          className="input-field min-w-[220px] max-w-xs"
+          aria-label="Buscar productos"
         />
-      </div>
+      </PageHeader>
 
-      {loading && <p className="text-center py-8">Cargando productos…</p>}
-      {error && <p className="text-red-600 bg-red-50 p-3 rounded-lg">{error}</p>}
+      {loading && <Loading message="Cargando productos…" />}
+      {error && <Alert variant="error">{error}</Alert>}
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtrados.map((p) => (
-          <ProductCard
-            key={p.id}
-            producto={p}
-            showCalorias={canSeeCalorias(role)}
-            showCostos={canSeeCostos(role)}
-            showRentabilidad={canSeeRentabilidad(role)}
-            canSell={canSell(role)}
-            onVender={handleVender}
-          />
-        ))}
-      </div>
+      {!loading && !error && filtrados.length === 0 && (
+        <div className="glass-card p-12 text-center text-slate-500">
+          No hay productos que coincidan con la búsqueda.
+        </div>
+      )}
+
+      {!loading && filtrados.length > 0 && (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtrados.map((p) => (
+            <ProductCard
+              key={p.id}
+              producto={p}
+              showCalorias={canSeeCalorias(role)}
+              showCostos={canSeeCostos(role)}
+              showRentabilidad={canSeeRentabilidad(role)}
+              canSell={canSell(role)}
+              onVender={handleVender}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

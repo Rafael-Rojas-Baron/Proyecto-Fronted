@@ -1,4 +1,4 @@
-# Heladería FrostBite
+# Capy Frost
 
 Aplicación web para gestionar productos, ingredientes y ventas de una heladería.  
 Stack: React, Vite, Tailwind CSS, Supabase y despliegue en Vercel.
@@ -133,4 +133,4 @@ Coloca tu imagen en `public/logo-capy.png`. Si no existe, el encabezado mostrar�
 
 ## Licencia y autor
 
-Proyecto académico realizado por Rafael Rojas — Heladería FrostBite.
+Proyecto académico realizado por Rafael Rojas — Capy Frost.

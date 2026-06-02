@@ -1,4 +1,4 @@
--- Heladería FrostBite — Script completo para Supabase SQL Editor
+-- Capy Frost — Script completo para Supabase SQL Editor
 -- Ejecutar en orden (todo el archivo de una vez)
 
 -- Usuarios (autenticación por correo y contraseña según el taller)

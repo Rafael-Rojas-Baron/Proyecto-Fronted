@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { isSupabaseConfigured } from '../lib/supabase';
 import SetupBanner from '../components/SetupBanner';
+import Logo from '../components/Logo';
+import Alert from '../components/ui/Alert';
 
 export default function Login() {
   const { login } = useAuth();
@@ -33,14 +35,20 @@ export default function Login() {
   return (
     <div className="max-w-md mx-auto">
       <SetupBanner />
-      <div className="bg-white rounded-2xl shadow-lg border border-frost-100 p-8">
-        <h1 className="text-2xl font-bold text-frost-900 mb-2">Iniciar sesión</h1>
-        <p className="text-sm text-slate-500 mb-6">
-          Autenticación contra la tabla <code>users</code> de Supabase (correo y contraseña).
-        </p>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="glass-card p-8 md:p-10 shadow-card">
+        <div className="flex flex-col items-center text-center mb-8">
+          <div className="rounded-full bg-slate-900 p-2 mb-4 ring-2 ring-frost-200">
+            <Logo size="md" />
+          </div>
+          <h1 className="font-display text-2xl font-bold text-frost-900">Iniciar sesión</h1>
+          <p className="text-sm text-slate-500 mt-2">
+            Accede con tu correo y contraseña registrados en el sistema.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="correo">
+            <label className="block text-sm font-semibold text-frost-900 mb-1.5" htmlFor="correo">
               Correo
             </label>
             <input
@@ -48,12 +56,13 @@ export default function Login() {
               type="email"
               value={correo}
               onChange={(e) => setCorreo(e.target.value)}
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-frost-500 outline-none"
+              className="input-field"
+              placeholder="tu@correo.com"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="password">
+            <label className="block text-sm font-semibold text-frost-900 mb-1.5" htmlFor="password">
               Contraseña
             </label>
             <input
@@ -61,18 +70,12 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-frost-500 outline-none"
+              className="input-field"
               required
             />
           </div>
-          {error && (
-            <p className="text-red-600 text-sm bg-red-50 p-2 rounded-lg">{error}</p>
-          )}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-frost-600 hover:bg-frost-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-lg"
-          >
+          {error && <Alert variant="error">{error}</Alert>}
+          <button type="submit" disabled={loading} className="btn-primary w-full">
             {loading ? 'Ingresando…' : 'Entrar'}
           </button>
         </form>

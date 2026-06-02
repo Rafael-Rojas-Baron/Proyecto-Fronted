@@ -3,7 +3,7 @@ import { ROLES, getRole } from '../utils/permissions';
 import { loginByEmailPassword } from '../services/authService';
 
 const AuthContext = createContext(null);
-const STORAGE_KEY = 'frostbite_user';
+const STORAGE_KEY = 'capy_frost_user';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);

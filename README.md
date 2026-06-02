@@ -1,2 +1,3 @@
-# Proyecto-Fronted
-Proyecto Heladeria en JS, supabase y vercel
+# Capy Frost
+
+Heladería digital — React, Supabase y Vercel.

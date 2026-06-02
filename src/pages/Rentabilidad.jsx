@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import SetupBanner from '../components/SetupBanner';
+import PageHeader from '../components/ui/PageHeader';
+import Alert from '../components/ui/Alert';
+import Loading from '../components/ui/Loading';
 import {
   getProductoMasRentable,
   getProductosConIngredientes,
@@ -11,56 +14,82 @@ export default function Rentabilidad() {
   const [productos, setProductos] = useState([]);
   const [top, setTop] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isSupabaseConfigured) return;
+    if (!isSupabaseConfigured) {
+      setLoading(false);
+      return;
+    }
     Promise.all([getProductosConIngredientes(), getProductoMasRentable()])
       .then(([list, best]) => {
         setProductos([...list].sort((a, b) => b.rentabilidad - a.rentabilidad));
         setTop(best);
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
     <div>
       <SetupBanner />
-      <h1 className="text-3xl font-bold text-frost-900 mb-6">Rentabilidad</h1>
-      {error && <p className="text-red-600">{error}</p>}
+      <PageHeader
+        title="Rentabilidad"
+        subtitle="Análisis de costos, precios y margen por producto"
+      />
+
+      {error && <Alert variant="error">{error}</Alert>}
+      {loading && <Loading />}
+
       {top && (
-        <div className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl p-6 mb-8 shadow-lg">
-          <p className="text-sm uppercase tracking-wide opacity-90">Producto más rentable</p>
-          <p className="text-2xl font-bold mt-1">{top.nombre}</p>
-          <p className="mt-2">
-            Rentabilidad: {formatMoney(top.rentabilidad)} · Precio público:{' '}
-            {formatMoney(top.precio_publico)} · Costo: {formatMoney(top.costo)}
+        <div className="rounded-2xl p-6 md:p-8 mb-8 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 text-white shadow-card relative overflow-hidden">
+          <div className="absolute right-0 top-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" aria-hidden="true" />
+          <p className="text-xs uppercase tracking-widest font-semibold opacity-90 relative">
+            Producto más rentable
           </p>
+          <p className="font-display text-2xl md:text-3xl font-bold mt-2 relative">{top.nombre}</p>
+          <div className="mt-4 flex flex-wrap gap-4 text-sm relative">
+            <span className="bg-white/15 rounded-lg px-3 py-1.5">
+              Rentabilidad: <strong>{formatMoney(top.rentabilidad)}</strong>
+            </span>
+            <span className="bg-white/15 rounded-lg px-3 py-1.5">
+              Público: {formatMoney(top.precio_publico)}
+            </span>
+            <span className="bg-white/15 rounded-lg px-3 py-1.5">
+              Costo: {formatMoney(top.costo)}
+            </span>
+          </div>
         </div>
       )}
-      <div className="overflow-x-auto">
-        <table className="w-full bg-white rounded-xl shadow text-sm">
-          <thead className="bg-frost-800 text-white">
-            <tr>
-              <th className="p-3 text-left">Producto</th>
-              <th className="p-3">Precio público</th>
-              <th className="p-3">Costo</th>
-              <th className="p-3">Rentabilidad</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productos.map((p) => (
-              <tr key={p.id} className="border-t">
-                <td className="p-3">{p.nombre}</td>
-                <td className="p-3 text-center">{formatMoney(p.precio_publico)}</td>
-                <td className="p-3 text-center">{formatMoney(p.costo)}</td>
-                <td className="p-3 text-center font-semibold text-emerald-700">
-                  {formatMoney(p.rentabilidad)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+
+      {!loading && productos.length > 0 && (
+        <div className="glass-card overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full table-frost text-sm">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th className="text-center">Precio público</th>
+                  <th className="text-center">Costo</th>
+                  <th className="text-center">Rentabilidad</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productos.map((p) => (
+                  <tr key={p.id}>
+                    <td className="font-medium text-slate-800">{p.nombre}</td>
+                    <td className="text-center">{formatMoney(p.precio_publico)}</td>
+                    <td className="text-center text-slate-600">{formatMoney(p.costo)}</td>
+                    <td className="text-center font-bold text-emerald-700">
+                      {formatMoney(p.rentabilidad)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

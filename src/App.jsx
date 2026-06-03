@@ -10,10 +10,12 @@ import Ingredientes from './pages/Ingredientes';
 import Ventas from './pages/Ventas';
 import Panel from './pages/Panel';
 import Rentabilidad from './pages/Rentabilidad';
+import WelcomeAudio from './components/WelcomeAudio';
 
 export default function App() {
   return (
     <AuthProvider>
+      <WelcomeAudio />
       <BrowserRouter>
         <Layout>
           <Routes>

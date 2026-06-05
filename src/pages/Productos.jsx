@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import ProductCard from '../components/ProductCard';
+import ProductCarousel from '../components/ProductCarousel';
 import SetupBanner from '../components/SetupBanner';
 import PageHeader from '../components/ui/PageHeader';
 import Alert from '../components/ui/Alert';
 import Loading from '../components/ui/Loading';
-import { getProductosConIngredientes, venderProducto } from '../services/productosService';
+import { getProductosConIngredientes } from '../services/productosService';
 import {
   canSeeCalorias,
   canSeeCostos,
@@ -15,7 +16,7 @@ import {
 import { isSupabaseConfigured } from '../lib/supabase';
 
 export default function Productos() {
-  const { role, user } = useAuth();
+  const { role } = useAuth();
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -45,23 +46,12 @@ export default function Productos() {
     p.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  const handleVender = async (producto) => {
-    if (!canSell(role)) return;
-    try {
-      await venderProducto(producto.id, user?.id, 1);
-      alert(`¡Venta exitosa! ${producto.nombre}`);
-      load();
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-
   return (
     <div>
       <SetupBanner />
       <PageHeader
         title="Menú de productos"
-        subtitle="Copas y malteadas con ingredientes e información según tu rol"
+        subtitle="Explora el catálogo de copas y malteadas. Para comprar, usa la pestaña Vender."
       >
         <input
           type="search"
@@ -73,6 +63,15 @@ export default function Productos() {
         />
       </PageHeader>
 
+      {canSell(role) && (
+        <p className="mb-6 text-sm text-frost-800 bg-frost-50 border border-frost-100 rounded-xl px-4 py-3">
+          ¿Quieres registrar una venta?{' '}
+          <Link to="/ventas" className="font-semibold text-frost-600 hover:text-frost-700 underline">
+            Ir a Vender
+          </Link>
+        </p>
+      )}
+
       {loading && <Loading message="Cargando productos…" />}
       {error && <Alert variant="error">{error}</Alert>}
 
@@ -83,19 +82,12 @@ export default function Productos() {
       )}
 
       {!loading && filtrados.length > 0 && (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtrados.map((p) => (
-            <ProductCard
-              key={p.id}
-              producto={p}
-              showCalorias={canSeeCalorias(role)}
-              showCostos={canSeeCostos(role)}
-              showRentabilidad={canSeeRentabilidad(role)}
-              canSell={canSell(role)}
-              onVender={handleVender}
-            />
-          ))}
-        </div>
+        <ProductCarousel
+          productos={filtrados}
+          showCalorias={canSeeCalorias(role)}
+          showCostos={canSeeCostos(role)}
+          showRentabilidad={canSeeRentabilidad(role)}
+        />
       )}
     </div>
   );

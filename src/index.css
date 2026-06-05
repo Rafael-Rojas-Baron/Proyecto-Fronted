@@ -71,6 +71,6 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply bg-frost-300 rounded-full;
+    @apply bg-frost-200 rounded-full;
   }
 }

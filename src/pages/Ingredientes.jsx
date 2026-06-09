@@ -8,7 +8,6 @@ import {
   deleteIngrediente,
   getAllIngredientes,
   reabastecerIngrediente,
-  renovarInventarioComplemento,
   updateIngrediente,
 } from '../services/ingredientesService';
 import { isSupabaseConfigured } from '../lib/supabase';
@@ -115,16 +114,6 @@ export default function Ingredientes() {
     if (!qty) return;
     try {
       await reabastecerIngrediente(id, Number(qty));
-      load();
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleRenovar = async (id) => {
-    if (!confirm('¿Poner inventario del complemento en 0?')) return;
-    try {
-      await renovarInventarioComplemento(id);
       load();
     } catch (err) {
       setError(err.message);
@@ -251,34 +240,25 @@ export default function Ingredientes() {
                       </span>
                     </td>
                     <td>
-                      <div className="flex flex-wrap gap-2 justify-center">
+                      <div className="flex flex-wrap gap-2 justify-center min-w-[280px]">
                         <button
                           type="button"
                           onClick={() => startEdit(ing)}
-                          className="text-frost-700 text-xs font-bold hover:text-frost-900"
+                          className="btn-action-edit"
                         >
                           Editar
                         </button>
                         <button
                           type="button"
                           onClick={() => handleReabastecer(ing.id)}
-                          className="text-emerald-700 text-xs font-bold hover:text-emerald-900"
+                          className="btn-action-stock"
                         >
                           Reabastecer
                         </button>
-                        {ing.tipo === 'complemento' && (
-                          <button
-                            type="button"
-                            onClick={() => handleRenovar(ing.id)}
-                            className="text-amber-700 text-xs font-bold hover:text-amber-900"
-                          >
-                            A 0
-                          </button>
-                        )}
                         <button
                           type="button"
                           onClick={() => handleDelete(ing.id)}
-                          className="text-red-600 text-xs font-bold hover:text-red-800"
+                          className="btn-action-delete"
                         >
                           Eliminar
                         </button>

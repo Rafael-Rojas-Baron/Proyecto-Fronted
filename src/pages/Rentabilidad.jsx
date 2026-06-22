@@ -42,7 +42,7 @@ export default function Rentabilidad() {
       {loading && <Loading />}
 
       {top && (
-        <div className="rounded-2xl p-6 md:p-8 mb-8 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 text-white shadow-card relative overflow-hidden">
+        <div className="rounded-2xl p-6 md:p-8 mb-8 bg-gradient-to-br from-frost-500 via-frost-600 to-frost-700 text-white shadow-card relative overflow-hidden">
           <div className="absolute right-0 top-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" aria-hidden="true" />
           <p className="text-xs uppercase tracking-widest font-semibold opacity-90 relative">
             Producto más rentable
